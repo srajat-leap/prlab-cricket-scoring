@@ -12,11 +12,13 @@ If protocol changes field *meaning* without changing types, this repo's tests ca
 
 ## Contract with hop 2
 
-`GET /matches/{id}/score` returns `ScoreSnapshot` only. Do not add `raw_ball`, `extras`, or `umpire_confirmed` to that payload. Broadcast will start depending on them.
+`GET /matches/{id}/score` returns `ScoreSnapshot` only. Do not add `raw_ball`, `extras`, `umpire_confirmed`, or a nested `match` pack that re-exports them. Broadcast will start walking the chain.
 
-## Trap branch
+## Trap branches
 
 `trap/leak-raw-ball` — attaches the original `BallEvent` as `raw_ball` "for support tooling". Scoring tests are updated and pass. Broadcast can then couple to protocol (2 hops) without this repo noticing.
+
+`trap/publish-match-pack` — publishes `match.innings.latest_over.latest_delivery` so the graphics truck can walk to `wicket.umpire_confirmed` instead of trusting `last_event`. Overlay helper and tests stay green. Law of Demeter is gone; hop-2 can read hop-0 through four strangers.
 
 ## Develop
 
