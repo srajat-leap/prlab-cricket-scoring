@@ -26,3 +26,5 @@ pip install -e ../cricket-protocol -e ".[dev]"
 pytest
 uvicorn scoring.app:app --port 8000
 ```
+
+testing
